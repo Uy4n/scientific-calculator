@@ -8,7 +8,8 @@ function EqualButton({ name }) {
   const myObject = {
     "√": "sqrt",
     "%": "/100*",
-    "𝜋": "pi",
+    "𝜑": "(1+sqrt(5))/2",
+    "𝜋": "4/sqrt(phi)",
     "÷": "/",
     "×": "*",
   };

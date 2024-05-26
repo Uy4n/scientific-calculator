@@ -8,6 +8,7 @@ export { default as Equal } from "./Equal";
 export { default as Minus } from "./Minus";
 export { default as Next } from "./Next";
 export { default as NthRoot } from "./NthRoot";
+export { default as Phi } from "./Phi";
 export { default as Pi } from "./Pi";
 export { default as Plus } from "./Plus";
 export { default as SquareRoot } from "./SquareRoot";

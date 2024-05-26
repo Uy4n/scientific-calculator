@@ -14,6 +14,9 @@ export function Button({ name, type }) {
           case "pi":
             setUserInput(userInput + "\u{1D70B}");
             break;
+          case "phi":
+            setUserInput(userInput + "\u{1D711}");
+            break;
           case "sqrt":
             setUserInput(userInput + "√(");
             break;

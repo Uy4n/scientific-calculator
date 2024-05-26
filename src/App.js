@@ -93,6 +93,20 @@ function App() {
                 </Row>
                 <Row>
                   <Col>
+                    <Button name="Bin" />
+                  </Col>
+                  <Col>
+                    <Button name="Dec" />
+                  </Col>
+                  <Col>
+                    <Button name="Doz" />
+                  </Col>
+                  <Col>
+                    <Button name="Hex" />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
                     <Button name="(" />
                   </Col>
                   <Col>
@@ -145,7 +159,7 @@ function App() {
                 </Row>
                 <Row>
                   <Col>
-                    <Button name={<Icons.XDegreeCube />} type="degreecube" />
+                    <Button name={<Icons.Phi />} type="phi" />
                   </Col>
                   <Col>
                     <Button name={<Icons.CubeRoot />} type="cbrt" />
