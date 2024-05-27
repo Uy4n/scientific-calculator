@@ -88,8 +88,8 @@ export function ForwardButton({ name }) {
 
 export function RadButton({ name }) {
   const buttonClick = () => {
-    document.getElementById("rad").style.backgroundColor = "#292929";
-    document.getElementById("deg").style.backgroundColor = "#3c3c3e";
+    document.getElementById("rad").style.backgroundColor = "#3c3c3e";
+    document.getElementById("deg").style.backgroundColor = "#292929";
   };
   return (
     <button id="rad" onClick={buttonClick}>
@@ -100,11 +100,67 @@ export function RadButton({ name }) {
 
 export function DegButton({ name }) {
   const buttonClick = () => {
-    document.getElementById("deg").style.backgroundColor = "#292929";
-    document.getElementById("rad").style.backgroundColor = "#3c3c3e";
+    document.getElementById("deg").style.backgroundColor = "#3c3c3e";
+    document.getElementById("rad").style.backgroundColor = "#292929";
   };
   return (
     <button id="deg" onClick={buttonClick}>
+      {name}
+    </button>
+  );
+}
+
+export function BinButton({ name }) {
+  const buttonClick = () => {
+    document.getElementById("bin").style.backgroundColor = "#3c3c3e";
+    document.getElementById("dec").style.backgroundColor = "#292929";
+    document.getElementById("doz").style.backgroundColor = "#292929";
+    document.getElementById("hex").style.backgroundColor = "#292929";
+  };
+  return (
+    <button id="bin" onClick={buttonClick}>
+      {name}
+    </button>
+  );
+}
+
+export function DecButton({ name }) {
+  const buttonClick = () => {
+    document.getElementById("bin").style.backgroundColor = "#292929";
+    document.getElementById("dec").style.backgroundColor = "#3c3c3e";
+    document.getElementById("doz").style.backgroundColor = "#292929";
+    document.getElementById("hex").style.backgroundColor = "#292929";
+  };
+  return (
+    <button id="dec" onClick={buttonClick}>
+      {name}
+    </button>
+  );
+}
+
+export function DozButton({ name }) {
+  const buttonClick = () => {
+    document.getElementById("bin").style.backgroundColor = "#292929";
+    document.getElementById("dec").style.backgroundColor = "#292929";
+    document.getElementById("doz").style.backgroundColor = "#3c3c3e";
+    document.getElementById("hex").style.backgroundColor = "#292929";
+  };
+  return (
+    <button id="doz" onClick={buttonClick}>
+      {name}
+    </button>
+  );
+}
+
+export function HexButton({ name }) {
+  const buttonClick = () => {
+    document.getElementById("bin").style.backgroundColor = "#292929";
+    document.getElementById("dec").style.backgroundColor = "#292929";
+    document.getElementById("doz").style.backgroundColor = "#292929";
+    document.getElementById("hex").style.backgroundColor = "#3c3c3e";
+  };
+  return (
+    <button id="hex" onClick={buttonClick}>
       {name}
     </button>
   );

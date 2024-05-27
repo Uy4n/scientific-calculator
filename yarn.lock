@@ -7267,7 +7267,7 @@
   dependencies:
     "object-visit" "^1.0.0"
 
-"mathjs@^7.1.0":
+"mathjs@^7.6.0":
   "integrity" "sha512-abywR28hUpKF4at5jE8Ys+Kigk40eKMT5mcBLD0/dtsqjfOLbtzd3WjlRqIopNo7oQ6FME51qph6lb8h/bhpUg=="
   "resolved" "https://registry.npmjs.org/mathjs/-/mathjs-7.6.0.tgz"
   "version" "7.6.0"

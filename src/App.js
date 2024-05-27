@@ -6,15 +6,7 @@ import usePrevious from "./hooks/usePrevious";
 import useIsMount from "./hooks/useIsMount";
 import { MyContext } from "./MyContext";
 import Input from "./components/input/Input";
-import {
-  Button,
-  ClearButton,
-  DeleteButton,
-  BackButton,
-  ForwardButton,
-  RadButton,
-  DegButton,
-} from "./components/buttons/Buttons";
+import * as Buttons from "./components/buttons/Buttons";
 import AnsButton from "./components/AnsButton";
 import Operator from "./components/operator/Operator";
 import EqualButton from "./components/equal-button/EqualButton";
@@ -67,25 +59,25 @@ function App() {
               <Col>
                 <Row className="firstRow">
                   <Col>
-                    <RadButton name="Rad" />
+                    <Buttons.RadButton name="Rad" />
                   </Col>
                   <Col>
-                    <DegButton name="Deg" />
+                    <Buttons.DegButton name="Deg" />
                   </Col>
                   <Col>
-                    <BackButton name={<Icons.Back />} />
+                    <Buttons.BackButton name={<Icons.Back />} />
                   </Col>
                   <Col>
-                    <ForwardButton name={<Icons.Next />} />
+                    <Buttons.ForwardButton name={<Icons.Next />} />
                   </Col>
                   <Col>
                     <AnsButton name="Ans" />
                   </Col>
                   <Col>
-                    <ClearButton name="AC" />
+                    <Buttons.ClearButton name="AC" />
                   </Col>
                   <Col className="delete">
-                    <DeleteButton name={<Icons.Backspace />} />
+                    <Buttons.DeleteButton name={<Icons.Backspace />} />
                   </Col>
                   <Col>
                     <EqualButton name={<Icons.Equal />} />
@@ -93,39 +85,73 @@ function App() {
                 </Row>
                 <Row>
                   <Col>
-                    <Button name="Bin" />
+                    <Buttons.BinButton name="Bin" />
                   </Col>
                   <Col>
-                    <Button name="Dec" />
+                    <Buttons.DecButton name="Dec" />
                   </Col>
                   <Col>
-                    <Button name="Doz" />
+                    <Buttons.DozButton name="Doz" />
                   </Col>
                   <Col>
-                    <Button name="Hex" />
+                    <Buttons.HexButton name="Hex" />
+                  </Col>
+                  <Col>
+                    <Buttons.Button name = "D" className = "number"/>
+                  </Col>
+                  <Col>
+                    <Buttons.Button name = "E" className = "number"/>
+                  </Col>
+                  <Col>
+                    <Buttons.Button name = "F" className = "number"/>
+                  </Col>
+                  <Col sm = {1}>
                   </Col>
                 </Row>
                 <Row>
                   <Col>
-                    <Button name="(" />
+                    <Buttons.Button name="(" />
                   </Col>
                   <Col>
-                    <Button name=")" />
+                    <Buttons.Button name=")" />
                   </Col>
                   <Col>
-                    <Button name="," />
+                    <Buttons.Button name="," />
                   </Col>
                   <Col>
-                    <Button name="e" />
+                    <Buttons.Button name="e" />
                   </Col>
                   <Col>
-                    <Button name="7" className="number" />
+                    <Buttons.Button name="A" className="number"/>
                   </Col>
                   <Col>
-                    <Button name="8" className="number" />
+                    <Buttons.Button name="B" className="number"/>
                   </Col>
                   <Col>
-                    <Button name="9" className="number" />
+                    <Buttons.Button name="C" className="number"/>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Buttons.Button name={<Icons.Pi />} type="pi" />
+                  </Col>
+                  <Col>
+                    <Buttons.Button name="log" type="func" />
+                  </Col>
+                  <Col>
+                    <Buttons.Button name={<Icons.XDegreeSquare />} type="degreesqr" />
+                  </Col>
+                  <Col>
+                    <Buttons.Button name={<Icons.SquareRoot />} type="sqrt" />
+                  </Col>
+                  <Col>
+                    <Buttons.Button name="7" className="number" />
+                  </Col>
+                  <Col>
+                    <Buttons.Button name="8" className="number" />
+                  </Col>
+                  <Col>
+                    <Buttons.Button name="9" className="number" />
                   </Col>
                   <Col>
                     <Operator name={<Icons.Divide />} type="divide" />
@@ -133,25 +159,25 @@ function App() {
                 </Row>
                 <Row>
                   <Col>
-                    <Button name={<Icons.Pi />} type="pi" />
+                    <Buttons.Button name={<Icons.Phi />} type="phi" />
                   </Col>
                   <Col>
-                    <Button name="log" type="func" />
+                    <Buttons.Button name={<Icons.CubeRoot />} type="cbrt" />
                   </Col>
                   <Col>
-                    <Button name={<Icons.XDegreeSquare />} type="degreesqr" />
+                    <Buttons.Button name={<Icons.XPowerN />} type="xpowern" />
                   </Col>
                   <Col>
-                    <Button name={<Icons.SquareRoot />} type="sqrt" />
+                    <Buttons.Button name={<Icons.NthRoot />} type="nthrt" />
                   </Col>
                   <Col>
-                    <Button name="4" className="number" />
+                    <Buttons.Button name="4" className="number" />
                   </Col>
                   <Col>
-                    <Button name="5" className="number" />
+                    <Buttons.Button name="5" className="number" />
                   </Col>
                   <Col>
-                    <Button name="6" className="number" />
+                    <Buttons.Button name="6" className="number" />
                   </Col>
                   <Col>
                     <Operator name={<Icons.Multiplication />} type="mul" />
@@ -159,51 +185,50 @@ function App() {
                 </Row>
                 <Row>
                   <Col>
-                    <Button name={<Icons.Phi />} type="phi" />
+                    <Buttons.Button name="altSin" type="func" />
                   </Col>
                   <Col>
-                    <Button name={<Icons.CubeRoot />} type="cbrt" />
+                    <Buttons.Button name="altCos" type="func" />
                   </Col>
                   <Col>
-                    <Button name={<Icons.XPowerN />} type="xpowern" />
+                    <Buttons.Button name="altTan" type="func" />
                   </Col>
                   <Col>
-                    <Button name={<Icons.NthRoot />} type="nthrt" />
+                    <Buttons.Button name={<Icons.TenPowerX />} type="tenpowerx" />
                   </Col>
                   <Col>
-                    <Button name="1" className="number" />
+                    <Buttons.Button name="1" className="number" />
                   </Col>
                   <Col>
-                    <Button name="2" className="number" />
+                    <Buttons.Button name="2" className="number" />
                   </Col>
                   <Col>
-                    <Button name="3" className="number" />
+                    <Buttons.Button name="3" className="number" />
                   </Col>
                   <Col>
-                    <Operator name={<Icons.Minus />} type="plus" />
+                    <Operator name={<Icons.Minus />} type="minus" />
                   </Col>
                 </Row>
                 <Row>
                   <Col>
-                    <Button name="sin" type="func" />
+                    <Buttons.Button name="altAsin" type="func" />
                   </Col>
                   <Col>
-                    <Button name="cos" type="func" />
+                    <Buttons.Button name="altAcos" type="func" />
                   </Col>
                   <Col>
-                    <Button name="tan" type="func" />
+                    <Buttons.Button name="altAtan" type="func" />
+                  </Col>
+                  <Col sm = {1}>
                   </Col>
                   <Col>
-                    <Button name={<Icons.TenPowerX />} type="tenpowerx" />
+                    <Buttons.Button name="%" />
                   </Col>
                   <Col>
-                    <Button name="%" />
+                    <Buttons.Button name="0" className="number" />
                   </Col>
                   <Col>
-                    <Button name="0" className="number" />
-                  </Col>
-                  <Col>
-                    <Button name="." />
+                    <Buttons.Button name="." />
                   </Col>
                   <Col>
                     <Operator name={<Icons.Plus />} type="plus" />
