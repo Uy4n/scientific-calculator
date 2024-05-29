@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col } from "react-bootstrap";
-import usePrevious from "./hooks/usePrevious";
-import useIsMount from "./hooks/useIsMount";
+// import usePrevious from "./hooks/usePrevious";
+// import useIsMount from "./hooks/useIsMount";
 import { MyContext } from "./MyContext";
 import Input from "./components/input/Input";
 import * as Buttons from "./components/buttons/Buttons";
@@ -16,32 +16,13 @@ function App() {
   const [userInput, setUserInput] = useState("");
   const [stack, setStack] = useState([]);
   const [removed, setRemoved] = useState([]);
-  const prevInput = usePrevious(userInput);
-  const isMount = useIsMount();
-
-  function getDifference(str1, str2) {
-    var i = 0;
-    var j = 0;
-    var diff = "";
-
-    while (j < str2.length) {
-      if (str1[i] !== str2[j] || i === str1.length) diff += str2[j];
-      else i++;
-      j++;
-    }
-    return diff;
-  }
-
-  useEffect(() => {
-    if (isMount) console.log("First Render");
-    else {
-      stack.push(getDifference(prevInput, userInput));
-    }
-  }, [userInput]);
+  const [prevBase, setPrevBase] = useState("");
+  const [base, setBase] = useState("Dec");
 
   return (
     <MyContext.Provider
-      value={{ userInput, setUserInput, stack, setStack, removed, setRemoved }}
+      value={{ userInput, setUserInput, stack, setStack, removed, setRemoved, prevBase, setPrevBase, base, setBase
+      }}
     >
       <Container className="App">
         <Row className="App-header">
@@ -85,16 +66,16 @@ function App() {
                 </Row>
                 <Row>
                   <Col>
-                    <Buttons.BinButton name="Bin" />
+                    <Buttons.BaseButton name="Bin" />
                   </Col>
                   <Col>
-                    <Buttons.DecButton name="Dec" />
+                    <Buttons.BaseButton name="Dec" />
                   </Col>
                   <Col>
-                    <Buttons.DozButton name="Doz" />
+                    <Buttons.BaseButton name="Doz" />
                   </Col>
                   <Col>
-                    <Buttons.HexButton name="Hex" />
+                    <Buttons.BaseButton name="Hex" />
                   </Col>
                   <Col>
                     <Buttons.Button name = "D" className = "number"/>

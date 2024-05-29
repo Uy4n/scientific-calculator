@@ -3,15 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
+    "@testing-library/jest-dom": "^6.4.5",
+    "@testing-library/react": "^15.0.7",
+    "@testing-library/user-event": "^14.5.2",
     "bootstrap": "^5.0.0",
-    "mathjs": "^7.6.0",
-    "react": "^16.13.1",
-    "react-bootstrap": "^1.5.2",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1",
+    "lru-cache": "^10.2.2",
+    "mathjs": "^12.4.2",
+    "react": "^18.3.1",
+    "react-bootstrap": "^2.10.2",
+    "react-dom": "^18.3.1",
+    "react-scripts": "5.0.1",
     "undoredo.js": "^1.1.0"
   },
   "scripts": {
@@ -37,6 +38,20 @@
     ]
   },
   "devDependencies": {
-    "@svgr/cli": "^5.4.0"
-  }
+    "@babel/cli": "^7.24.6",
+    "@babel/core": "^7.24.6",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/plugin-syntax-flow": "^7.24.6",
+    "@babel/plugin-transform-private-property-in-object": "^7.24.6",
+    "@babel/preset-env": "^7.24.6",
+    "@babel/preset-flow": "^7.24.6",
+    "@babel/preset-react": "^7.24.6",
+    "@svgr/cli": "^8.1.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.29.1",
+    "webpack-cli": "^5.1.4"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

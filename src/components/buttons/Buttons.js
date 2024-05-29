@@ -1,6 +1,12 @@
-import React, { useContext } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import "./button.css";
 import { MyContext } from "../../MyContext";
+import BaseConverter from "../@cheprasov/base-converter/src/BaseConverter";
+import baseBinary from "../@cheprasov/base-converter/src/Base/baseBinary";
+import baseDecimal from "../@cheprasov/base-converter/src/Base/baseDecimal";
+import baseDozenal from "../@cheprasov/base-converter/src/Base/baseDozenal";
+import baseHexadecimal from "../@cheprasov/base-converter/src/Base/baseHexadecimal";
+import * as math from "mathjs";
 
 export function Button({ name, type }) {
   const { userInput, setUserInput } = useContext(MyContext);
@@ -110,57 +116,44 @@ export function DegButton({ name }) {
   );
 }
 
-export function BinButton({ name }) {
+export function BaseButton({ name }) {
+  const { prevBase, setPrevBase } = useContext(MyContext);
+  const { base, setBase } = useContext(MyContext);
+  const { userInput, setUserInput } = useContext(MyContext);
+  const hasPageBeenRendered = useRef({switchBase : false})
   const buttonClick = () => {
-    document.getElementById("bin").style.backgroundColor = "#3c3c3e";
-    document.getElementById("dec").style.backgroundColor = "#292929";
-    document.getElementById("doz").style.backgroundColor = "#292929";
-    document.getElementById("hex").style.backgroundColor = "#292929";
+    setPrevBase(prevBase => base);
+    setBase(base => name);
+    // setUserInput(BaseConverter.convert(userInput, baseDecimal, baseBinary));
+    // setUserInput(BaseConverter.convert(userInput, prevBase, base));
   };
-  return (
-    <button id="bin" onClick={buttonClick}>
-      {name}
-    </button>
-  );
-}
+    // This effect will re-run whenever `base` changes
+  useEffect(() => {
+    if (hasPageBeenRendered.current["switchBase"]) {
+      const baseLabel = new Map([
+        ["Bin", baseBinary],
+        ["Dec", baseDecimal],
+        ["Doz", baseDozenal],
+        ["Hex", baseHexadecimal]
+      ]);
+  
+      document.getElementById(prevBase).style.backgroundColor = "#292929";
+      document.getElementById(base).style.backgroundColor = "#3c3c3e";
+      const replaced = [...userInput];
+      var replacedEval = "";
+      try {
+        replacedEval = math.evaluate(replaced);
+      } catch (error) {
+        replacedEval = math.evaluate(replaced + ")");
+      }
+      setUserInput(BaseConverter.convert(replacedEval.join(''), baseLabel.get(prevBase), baseLabel.get(base)));
+    }
 
-export function DecButton({ name }) {
-  const buttonClick = () => {
-    document.getElementById("bin").style.backgroundColor = "#292929";
-    document.getElementById("dec").style.backgroundColor = "#3c3c3e";
-    document.getElementById("doz").style.backgroundColor = "#292929";
-    document.getElementById("hex").style.backgroundColor = "#292929";
-  };
-  return (
-    <button id="dec" onClick={buttonClick}>
-      {name}
-    </button>
-  );
-}
+    hasPageBeenRendered.current["switchBase"] = true;
 
-export function DozButton({ name }) {
-  const buttonClick = () => {
-    document.getElementById("bin").style.backgroundColor = "#292929";
-    document.getElementById("dec").style.backgroundColor = "#292929";
-    document.getElementById("doz").style.backgroundColor = "#3c3c3e";
-    document.getElementById("hex").style.backgroundColor = "#292929";
-  };
+  }, [base]);
   return (
-    <button id="doz" onClick={buttonClick}>
-      {name}
-    </button>
-  );
-}
-
-export function HexButton({ name }) {
-  const buttonClick = () => {
-    document.getElementById("bin").style.backgroundColor = "#292929";
-    document.getElementById("dec").style.backgroundColor = "#292929";
-    document.getElementById("doz").style.backgroundColor = "#292929";
-    document.getElementById("hex").style.backgroundColor = "#3c3c3e";
-  };
-  return (
-    <button id="hex" onClick={buttonClick}>
+    <button id={name} onClick={buttonClick}>
       {name}
     </button>
   );

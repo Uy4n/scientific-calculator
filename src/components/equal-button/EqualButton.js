@@ -4,7 +4,7 @@ import { create, all } from "mathjs";
 import { MyContext } from "../../MyContext";
 
 function EqualButton({ name }) {
-  const { userInput, setUserInput, stack } = useContext(MyContext);
+  const { userInput, setUserInput } = useContext(MyContext);
   const myObject = {
     "√": "sqrt",
     "%": "/100*",
@@ -82,10 +82,11 @@ math.import({
       if (x === -1) return -math.gPi / 2;
       
       const sign = x < 0? -1 : 1;
-      const xAbs = math.abs(x);
+      const xAbs = Math.abs(x);
       
-      const angle = math.gPi / 2 - 2 * math.asin(xAbs);
-      return sign * angle;
+      // Use the unit circle definition of arcsin(x)
+      const angle = sign * Math.sqrt(math.gPi * math.gPi / 4 - xAbs * xAbs * math.gPi * math.gPi / 4);
+      return angle;
     },
     altAcos: function (x) {
       if (x === 1) return 0;
@@ -95,8 +96,9 @@ math.import({
       const sign = x < 0? math.gPi : 0;
       const xAbs = math.abs(x);
       
-      const angle = 2 * math.asin(math.sqrt((1 - xAbs) / 2));
-      return sign + angle;
+      // Use the unit circle definition of arccos(x)
+      const angle = sign + math.sqrt(math.gPi * math.gPi / 4 - xAbs * xAbs * math.gPi * math.gPi / 4);
+      return angle;
     },
     altAtan: function (x) {
       if (x === 0) return 0;
@@ -106,8 +108,9 @@ math.import({
       const sign = x < 0? -1 : 1;
       const xAbs = math.abs(x);
       
-      const angle = 2 * math.atan(xAbs / (1 + math.sqrt(1 + xAbs * xAbs)));
-      return sign * angle;
+      // Use the unit circle definition of arctan(x)
+      const angle = sign * math.sqrt((math.gPi * math.gPi / 4) / (1 + xAbs * xAbs));
+      return angle;
     }
 })
 
