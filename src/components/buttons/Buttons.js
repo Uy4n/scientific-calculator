@@ -1,12 +1,6 @@
-import React, { useEffect, useRef, useContext } from "react";
+import React, { useContext } from "react";
 import "./button.css";
 import { MyContext } from "../../MyContext";
-import BaseConverter from "../@cheprasov/base-converter/src/BaseConverter";
-import baseBinary from "../@cheprasov/base-converter/src/Base/baseBinary";
-import baseDecimal from "../@cheprasov/base-converter/src/Base/baseDecimal";
-import baseDozenal from "../@cheprasov/base-converter/src/Base/baseDozenal";
-import baseHexadecimal from "../@cheprasov/base-converter/src/Base/baseHexadecimal";
-import * as math from "mathjs";
 
 export function Button({ name, type }) {
   const { userInput, setUserInput } = useContext(MyContext);
@@ -50,6 +44,42 @@ export function Button({ name, type }) {
         }
       }}
     >
+      {" "}
+      {name}
+    </button>
+  );
+}
+
+export function DigitsDec({ name }) {
+  const { userInput, setUserInput } = useContext(MyContext);
+  const { isDec } = useContext(MyContext);
+  return (
+    <button
+      onClick={() => {setUserInput(userInput + name)}} disabled={!isDec}>
+      {" "}
+      {name}
+    </button>
+  );
+}
+
+export function DigitsDoz({ name }) {
+  const { userInput, setUserInput } = useContext(MyContext);
+  const { isDoz } = useContext(MyContext);
+  return (
+    <button
+      onClick={() => {setUserInput(userInput + name)}} disabled={!isDoz}>
+      {" "}
+      {name}
+    </button>
+  );
+}
+
+export function DigitsHex({ name }) {
+  const { userInput, setUserInput } = useContext(MyContext);
+  const { isHex } = useContext(MyContext);
+  return (
+    <button
+      onClick={() => {setUserInput(userInput + name)}} disabled={!isHex}>
       {" "}
       {name}
     </button>
@@ -111,49 +141,6 @@ export function DegButton({ name }) {
   };
   return (
     <button id="deg" onClick={buttonClick}>
-      {name}
-    </button>
-  );
-}
-
-export function BaseButton({ name }) {
-  const { prevBase, setPrevBase } = useContext(MyContext);
-  const { base, setBase } = useContext(MyContext);
-  const { userInput, setUserInput } = useContext(MyContext);
-  const hasPageBeenRendered = useRef({switchBase : false})
-  const buttonClick = () => {
-    setPrevBase(prevBase => base);
-    setBase(base => name);
-    // setUserInput(BaseConverter.convert(userInput, baseDecimal, baseBinary));
-    // setUserInput(BaseConverter.convert(userInput, prevBase, base));
-  };
-    // This effect will re-run whenever `base` changes
-  useEffect(() => {
-    if (hasPageBeenRendered.current["switchBase"]) {
-      const baseLabel = new Map([
-        ["Bin", baseBinary],
-        ["Dec", baseDecimal],
-        ["Doz", baseDozenal],
-        ["Hex", baseHexadecimal]
-      ]);
-  
-      document.getElementById(prevBase).style.backgroundColor = "#292929";
-      document.getElementById(base).style.backgroundColor = "#3c3c3e";
-      const replaced = [...userInput];
-      var replacedEval = "";
-      try {
-        replacedEval = math.evaluate(replaced);
-      } catch (error) {
-        replacedEval = math.evaluate(replaced + ")");
-      }
-      setUserInput(BaseConverter.convert(replacedEval.join(''), baseLabel.get(prevBase), baseLabel.get(base)));
-    }
-
-    hasPageBeenRendered.current["switchBase"] = true;
-
-  }, [base]);
-  return (
-    <button id={name} onClick={buttonClick}>
       {name}
     </button>
   );

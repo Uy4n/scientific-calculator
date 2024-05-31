@@ -1,25 +1,32 @@
-import React, { useContext } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import "./equal-button.css";
+import "../buttons/button.css";
 import { create, all } from "mathjs";
 import { MyContext } from "../../MyContext";
+import { convertBase } from "../baseroo";
 
-function EqualButton({ name }) {
-  const { userInput, setUserInput } = useContext(MyContext);
-  const myObject = {
-    "√": "sqrt",
-    "%": "/100*",
-    "𝜑": "(1+sqrt(5))/2",
-    "𝜋": "4/sqrt(phi)",
-    "÷": "/",
-    "×": "*",
-  };
+const baseLabel = new Map([
+  ["Bin", 2],
+  ["Dec", 10],
+  ["Doz", 12],
+  ["Hex", 16]
+]);
 
 const math = create(all);
+
+const myObject = new Map ([
+  ["√", "sqrt"],
+  ["%", "/100*"],
+  ["𝜑", (1+math.sqrt(5))/2],
+  ["𝜋", 4/math.sqrt(math.phi)],
+  ["÷", "/"],
+  ["×", "*"],
+]);
 
 math.import({
     // gPi = golden pi = 3.144
     gPi: 4 / math.sqrt(math.phi),
-    altSin: function (x) {
+    altsin: function (x) {
       if (x === 0) return 0;
       if (x === math.gPi / 2) return 1;
       if (x === math.gPi) return 0;
@@ -38,7 +45,7 @@ math.import({
       return -angle / (math.gPi / 2);
       }
     },
-    altCos: function (x) {
+    altcos: function (x) {
       if (x === 0) return 1;
       if (x === Math.gPi / 2) return 0;
       if (x === math.gPi) return -1;
@@ -57,7 +64,7 @@ math.import({
       return -angle / (math.gPi / 2);
       }
     },
-    altTan: function (x) {
+    alttan: function (x) {
       if (x === 0) return 0;
       if (x === math.gPi / 2) return Infinity;
       if (x === math.gPi) return 0;
@@ -76,7 +83,7 @@ math.import({
       return -angle / (math.gPi / 2 - angle);
       }
     },
-    altAsin: function (x) {
+    altasin: function (x) {
       if (x === 0) return 0;
       if (x === 1) return math.gPi / 2;
       if (x === -1) return -math.gPi / 2;
@@ -88,7 +95,7 @@ math.import({
       const angle = sign * Math.sqrt(math.gPi * math.gPi / 4 - xAbs * xAbs * math.gPi * math.gPi / 4);
       return angle;
     },
-    altAcos: function (x) {
+    altacos: function (x) {
       if (x === 1) return 0;
       if (x === -1) return math.gPi;
       if (x === 0) return math.gPi / 2;
@@ -100,7 +107,7 @@ math.import({
       const angle = sign + math.sqrt(math.gPi * math.gPi / 4 - xAbs * xAbs * math.gPi * math.gPi / 4);
       return angle;
     },
-    altAtan: function (x) {
+    altatan: function (x) {
       if (x === 0) return 0;
       if (x === Infinity) return math.gPi / 2;
       if (x === -Infinity) return -math.gPi / 2;
@@ -114,20 +121,33 @@ math.import({
     }
 })
 
+export function Equals({ name }) {
+  const { userInput, setUserInput } = useContext(MyContext);
+  const { base } = useContext(MyContext);
+
   const buttonClick = () => {
-    const replaced = [...userInput]
-      .map((letter) => {
-        if (myObject[letter]) {
-          return myObject[letter];
-        } else {
-          return letter;
-        }
-      })
-      .join("");
+    var replaced = [...userInput]
+      .join('')
+      .split(/([^\dABCDEF𝜋𝜑.])/g)
+        .filter((expr) => expr !== '')
+        .map(expr => {
+          if (myObject.get(expr)) {
+            return myObject.get(expr);
+          } else {
+            const isDigit = !!expr.match(/[\dABCDEF𝜋𝜑.]/g);
+            if (isDigit) {
+              return convertBase(expr, baseLabel.get(base), 10);
+            }
+            else {
+              return expr;
+            }
+          }
+        })
+        .join('');
     try {
-      setUserInput(math.evaluate(replaced));
+      setUserInput(convertBase(math.evaluate(replaced).toString(), 10, baseLabel.get(base)));
     } catch (error) {
-      setUserInput(math.evaluate(replaced + ")"));
+      setUserInput(convertBase(math.evaluate(replaced + ")").toString(), 10, baseLabel.get(base)));
     }
   };
 
@@ -138,4 +158,58 @@ math.import({
   );
 }
 
-export default EqualButton;
+export function BaseButton({ name }) {
+  const { prevBase, setPrevBase } = useContext(MyContext);
+  const { base, setBase } = useContext(MyContext);
+  const { userInput, setUserInput } = useContext(MyContext);
+  const { isDec, setIsDec } = useContext(MyContext);
+  const { isDoz, setIsDoz } = useContext(MyContext);
+  const { isHex, setIsHex } = useContext(MyContext);
+  const hasPageBeenRendered = useRef({switchBase : false});
+  const buttonClick = () => {
+    setPrevBase(prevBase => base);
+    setBase(base => name);
+    switch (name) {
+      case "Bin":
+        setIsDec(false);
+        setIsDoz(false);
+        setIsHex(false);
+        break;
+      case "Dec":
+        setIsDec(true);
+        setIsDoz(false);
+        setIsHex(false);
+        break;
+      case "Doz":
+        setIsDec(true);
+        setIsDoz(true);
+        setIsHex(false);
+        break;
+      case "Hex":
+        setIsDec(true);
+        setIsDoz(true);
+        setIsHex(true);
+        break;
+      default:
+        setIsDec(true);
+        setIsDoz(false);
+        setIsHex(false);
+        break;
+    }
+  };
+  // This effect will re-run whenever `base` changes
+  useEffect(() => {
+    if (hasPageBeenRendered.current["switchBase"]) { 
+      document.getElementById(prevBase).style.backgroundColor = "#292929";
+      document.getElementById(base).style.backgroundColor = "#3c3c3e";
+      };
+
+    hasPageBeenRendered.current["switchBase"] = true;
+
+  }, [base, prevBase, isDec, isDoz, isHex]);
+  return (
+    <button id={name} onClick={buttonClick}>
+      {name}
+    </button>
+  );
+}

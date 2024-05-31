@@ -32,3 +32,12 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 Includes new value of π = 4/√φ
 
+Problems: mathjs can't evaluate different bases.
+@cheprasov/Base-Converter can't convert fractional parts of non-integers.
+disabled feature of React buttons seems to be overriden by exported buttons
+
+Alternative: Parse expressions between their digits and symbols, allow their digits to change base, then only evaluate in base 10. To do this: parse digits and symbols, change digits to base 10, math.evaluate, change digits back to original base, then display.
+Ultimate goal: to create a calculator that can evaluate expressions in arbitrary bases.
+
+If you want to change the symbols used for bases, you'll have to edit baseroo files, EqualButton, Buttons
+

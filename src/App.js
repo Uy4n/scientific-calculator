@@ -9,7 +9,7 @@ import Input from "./components/input/Input";
 import * as Buttons from "./components/buttons/Buttons";
 import AnsButton from "./components/AnsButton";
 import Operator from "./components/operator/Operator";
-import EqualButton from "./components/equal-button/EqualButton";
+import * as EqualButton from "./components/equal-button/EqualButton";
 import * as Icons from "./components/icons";
 
 function App() {
@@ -18,10 +18,13 @@ function App() {
   const [removed, setRemoved] = useState([]);
   const [prevBase, setPrevBase] = useState("");
   const [base, setBase] = useState("Dec");
+  const [isDec, setIsDec] = useState(true);
+  const [isDoz, setIsDoz] = useState(false);
+  const [isHex, setIsHex] = useState(false);
 
   return (
     <MyContext.Provider
-      value={{ userInput, setUserInput, stack, setStack, removed, setRemoved, prevBase, setPrevBase, base, setBase
+      value={{ userInput, setUserInput, stack, setStack, removed, setRemoved, prevBase, setPrevBase, base, setBase, isDec, setIsDec, isDoz, setIsDoz, isHex, setIsHex
       }}
     >
       <Container className="App">
@@ -61,30 +64,30 @@ function App() {
                     <Buttons.DeleteButton name={<Icons.Backspace />} />
                   </Col>
                   <Col>
-                    <EqualButton name={<Icons.Equal />} />
+                    <EqualButton.Equals name={<Icons.Equal />} />
                   </Col>
                 </Row>
                 <Row>
                   <Col>
-                    <Buttons.BaseButton name="Bin" />
+                    <EqualButton.BaseButton name="Bin" />
                   </Col>
                   <Col>
-                    <Buttons.BaseButton name="Dec" />
+                    <EqualButton.BaseButton name="Dec" />
                   </Col>
                   <Col>
-                    <Buttons.BaseButton name="Doz" />
+                    <EqualButton.BaseButton name="Doz" />
                   </Col>
                   <Col>
-                    <Buttons.BaseButton name="Hex" />
+                    <EqualButton.BaseButton name="Hex" />
                   </Col>
                   <Col>
-                    <Buttons.Button name = "D" className = "number"/>
+                    <Buttons.DigitsHex name = "D" className = "number"/>
                   </Col>
                   <Col>
-                    <Buttons.Button name = "E" className = "number"/>
+                    <Buttons.DigitsHex name = "E" className = "number"/>
                   </Col>
                   <Col>
-                    <Buttons.Button name = "F" className = "number"/>
+                    <Buttons.DigitsHex name = "F" className = "number"/>
                   </Col>
                   <Col sm = {1}>
                   </Col>
@@ -103,13 +106,13 @@ function App() {
                     <Buttons.Button name="e" />
                   </Col>
                   <Col>
-                    <Buttons.Button name="A" className="number"/>
+                    <Buttons.DigitsDoz name="A" className="number"/>
                   </Col>
                   <Col>
-                    <Buttons.Button name="B" className="number"/>
+                    <Buttons.DigitsDoz name="B" className="number"/>
                   </Col>
                   <Col>
-                    <Buttons.Button name="C" className="number"/>
+                    <Buttons.DigitsHex name="C" className="number"/>
                   </Col>
                 </Row>
                 <Row>
@@ -126,13 +129,13 @@ function App() {
                     <Buttons.Button name={<Icons.SquareRoot />} type="sqrt" />
                   </Col>
                   <Col>
-                    <Buttons.Button name="7" className="number" />
+                    <Buttons.DigitsDec name="7" className="number" />
                   </Col>
                   <Col>
-                    <Buttons.Button name="8" className="number" />
+                    <Buttons.DigitsDec name="8" className="number" />
                   </Col>
                   <Col>
-                    <Buttons.Button name="9" className="number" />
+                    <Buttons.DigitsDec name="9" className="number" />
                   </Col>
                   <Col>
                     <Operator name={<Icons.Divide />} type="divide" />
@@ -152,13 +155,13 @@ function App() {
                     <Buttons.Button name={<Icons.NthRoot />} type="nthrt" />
                   </Col>
                   <Col>
-                    <Buttons.Button name="4" className="number" />
+                    <Buttons.DigitsDec name="4" className="number" />
                   </Col>
                   <Col>
-                    <Buttons.Button name="5" className="number" />
+                    <Buttons.DigitsDec name="5" className="number" />
                   </Col>
                   <Col>
-                    <Buttons.Button name="6" className="number" />
+                    <Buttons.DigitsDec name="6" className="number" />
                   </Col>
                   <Col>
                     <Operator name={<Icons.Multiplication />} type="mul" />
@@ -166,13 +169,13 @@ function App() {
                 </Row>
                 <Row>
                   <Col>
-                    <Buttons.Button name="altSin" type="func" />
+                    <Buttons.Button name="altsin" type="func" />
                   </Col>
                   <Col>
-                    <Buttons.Button name="altCos" type="func" />
+                    <Buttons.Button name="altcos" type="func" />
                   </Col>
                   <Col>
-                    <Buttons.Button name="altTan" type="func" />
+                    <Buttons.Button name="alttan" type="func" />
                   </Col>
                   <Col>
                     <Buttons.Button name={<Icons.TenPowerX />} type="tenpowerx" />
@@ -181,10 +184,10 @@ function App() {
                     <Buttons.Button name="1" className="number" />
                   </Col>
                   <Col>
-                    <Buttons.Button name="2" className="number" />
+                    <Buttons.DigitsDec name="2" className="number" />
                   </Col>
                   <Col>
-                    <Buttons.Button name="3" className="number" />
+                    <Buttons.DigitsDec name="3" className="number" />
                   </Col>
                   <Col>
                     <Operator name={<Icons.Minus />} type="minus" />
@@ -192,13 +195,13 @@ function App() {
                 </Row>
                 <Row>
                   <Col>
-                    <Buttons.Button name="altAsin" type="func" />
+                    <Buttons.Button name="altasin" type="func" />
                   </Col>
                   <Col>
-                    <Buttons.Button name="altAcos" type="func" />
+                    <Buttons.Button name="altacos" type="func" />
                   </Col>
                   <Col>
-                    <Buttons.Button name="altAtan" type="func" />
+                    <Buttons.Button name="altatan" type="func" />
                   </Col>
                   <Col sm = {1}>
                   </Col>
