@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useContext } from "react";
+import React, { useEffect, useRef, useCallback, useContext } from "react";
 import "./equal-button.css";
 import "../buttons/button.css";
 import { create, all } from "mathjs";
@@ -121,6 +121,34 @@ math.import({
     }
 })
 
+// const useUserInput = () => {
+//   const { userInput } = useContext(MyContext);
+//   const { base } = useContext(MyContext);
+//     var replaced = [...userInput]
+//     .join('')
+//     .split(/([^\dABCDEF𝜋𝜑.])/g)
+//       .filter((expr) => expr !== '')
+//       .map(expr => {
+//         if (myObject.get(expr)) {
+//           return myObject.get(expr);
+//         } else {
+//           const isDigit = !!expr.match(/[\dABCDEF𝜋𝜑.]/g);
+//           if (isDigit) {
+//             return convertBase(expr, baseLabel.get(base), 10);
+//           }
+//           else {
+//             return expr;
+//           }
+//         }
+//       })
+//       .join('');
+//   try {
+//     return convertBase(math.evaluate(replaced).toString(), 10, baseLabel.get(base));
+//   } catch (error) {
+//     return convertBase(math.evaluate(replaced + ")").toString(), 10, baseLabel.get(base));
+//   }
+// }
+
 export function Equals({ name }) {
   const { userInput, setUserInput } = useContext(MyContext);
   const { base } = useContext(MyContext);
@@ -155,18 +183,34 @@ export function Equals({ name }) {
       {name}
     </button>
   );
+  // const { userInput, setUserInput } = useContext(MyContext);
+  // const ButtonClick = () => {
+  //   console.log("hello world");
+  //   setUserInput(useUserInput());
+  // }
+  // useEffect(() => {
+  //   console.log(userInput);
+  // }, [userInput])
+  // return (
+  //   <MyContext.Provider
+  //   value={{ userInput, setUserInput }}
+  //   >
+  //   <button className="equal" onClick={ButtonClick}>
+  //     {name}
+  //   </button>
+  //   </MyContext.Provider>
+  // );
 }
 
 export function BaseButton({ name }) {
   const { prevBase, setPrevBase } = useContext(MyContext);
   const { base, setBase } = useContext(MyContext);
   const { userInput, setUserInput } = useContext(MyContext);
-  const { setIsDec } = useContext(MyContext);
-  const { setIsDoz } = useContext(MyContext);
-  const { setIsHex } = useContext(MyContext);
-
-  const changeBase = () => {
-    // note: setState renders after complete execution of code
+  const { isDec, setIsDec } = useContext(MyContext);
+  const { isDoz, setIsDoz } = useContext(MyContext);
+  const { isHex, setIsHex } = useContext(MyContext);
+  const hasPageBeenRendered = useRef({switchBase : false});
+  const buttonClick = () => {
     setPrevBase(prevBase => base);
     setBase(base => name);
     switch (name) {
@@ -196,34 +240,58 @@ export function BaseButton({ name }) {
         setIsHex(false);
         break;
     }
-    changeBaseDisplay();
-  }
+  };
 
-  const changeBaseDisplay = useCallback(() => {
-    setUserInput([...userInput]
-      .join('')
-      .split(/([^\dABCDEF𝜋𝜑.])/g)
+  const updateUserInput = useCallback(() => {
+    var replaced = [...userInput]
+    .join('')
+    .split(/([^\dABCDEF𝜋𝜑.])/g)
       .filter((expr) => expr !== '')
       .map(expr => {
           const isDigit = !!expr.match(/[\dABCDEF𝜋𝜑.]/g);
           if (isDigit) {
-            return convertBase(expr, baseLabel.get(base), baseLabel.get(name));
+            return convertBase(expr, baseLabel.get(prevBase), baseLabel.get(base));
           }
           else {
             return expr;
           }
       })
-      .join('')
-    );
-  }, [name, base, userInput, setUserInput])
-  
-  useEffect(() => {
-    document.getElementById(prevBase).style.backgroundColor = "#292929";
-    document.getElementById(base).style.backgroundColor = "#3c3c3e";
-  }, [base, prevBase]);
+      .join('');
+    console.log(replaced);
+    setUserInput(replaced);
+  }, [isDec, isDoz, isHex])
 
+  // This effect will re-run whenever `base` changes
+  useEffect(() => {
+    if (hasPageBeenRendered.current["switchBase"]) { 
+      document.getElementById(prevBase).style.backgroundColor = "#292929";
+      document.getElementById(base).style.backgroundColor = "#3c3c3e";
+      };
+
+    hasPageBeenRendered.current["switchBase"] = true;
+
+  }, [userInput, setUserInput, base, prevBase]);
+  // problem: useEffect is recursive
+  // useCallback(() => {
+  //   var replaced = [...userInput]
+  //   .join('')
+  //   .split(/([^\dABCDEF𝜋𝜑.])/g)
+  //     .filter((expr) => expr !== '')
+  //     .map(expr => {
+  //         const isDigit = !!expr.match(/[\dABCDEF𝜋𝜑.]/g);
+  //         if (isDigit) {
+  //           return convertBase(expr, baseLabel.get(prevBase), baseLabel.get(base));
+  //         }
+  //         else {
+  //           return expr;
+  //         }
+  //     })
+  //     .join('');
+  //   console.log(replaced);
+  //   setUserInput(replaced);
+  // }, [userInput, setUserInput, base, prevBase]);
   return (
-    <button id={name} onClick={changeBase}>
+    <button id={name} onClick={buttonClick}>
       {name}
     </button>
   );

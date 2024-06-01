@@ -16,7 +16,7 @@ function App() {
   const [userInput, setUserInput] = useState("");
   const [stack, setStack] = useState([]);
   const [removed, setRemoved] = useState([]);
-  const [prevBase, setPrevBase] = useState("");
+  const [prevBase, setPrevBase] = useState("Dec");
   const [base, setBase] = useState("Dec");
   const [isDec, setIsDec] = useState(true);
   const [isDoz, setIsDoz] = useState(false);
@@ -55,7 +55,7 @@ function App() {
                     <Buttons.ForwardButton name={<Icons.Next />} />
                   </Col>
                   <Col>
-                    <AnsButton name="Ans" />
+                    <AnsButton name="ans" />
                   </Col>
                   <Col>
                     <Buttons.ClearButton name="AC" />
